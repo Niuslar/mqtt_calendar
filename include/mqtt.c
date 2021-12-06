@@ -17,12 +17,7 @@
 #include "esp_log.h"
 #include "mqtt.h"
 
-
-
 static const char *TAG = "MQTT_MODULE";
-
-//Each position in the array represents the day of the month 
-event_t events[MAX_EVENTS];
 
 static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event)
 {
@@ -43,8 +38,10 @@ static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event)
         case MQTT_EVENT_DATA:
             ESP_LOGI(TAG, "MQTT_EVENT_DATA");
             //Send the event data to process day and color id
-            char message_buf[10];
+            char message_buf[60];
             sprintf(message_buf, "%.*s", event->data_len, event->data);
+            //The data arrives as a string with the following format: 
+            // "day_of_event, color_id, first_of_month, current_day"
             update_events(message_buf);
             break;
         default:
@@ -71,7 +68,7 @@ void mqtt_subscribe(esp_mqtt_client_handle_t client, const char *topic, int qos)
 
 void update_events(char *message)
 {
-    //printf("%s\n",message);
+    printf("%s\n",message);
     //Use tokens to split the values
     char *token;
     token = strtok(message, ",");
@@ -80,8 +77,13 @@ void update_events(char *message)
     //Then get the colour and do the same
     token = strtok(NULL,",");
     int colour = atoi(token);
+    //Next we get the first day of the month (weekday)
+    token = strtok(NULL,",");
+    first_of_month = atoi(token);
+    //Lastly we get the current date 
+    token = strtok(NULL,",");
+    current_date = atoi(token);
     //Now store the colour on the date on an array 
-    if(colour != 0)
     events[date-1].color_id = colour;
 }   
 

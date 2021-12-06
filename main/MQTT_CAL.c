@@ -15,7 +15,6 @@ typedef struct{
     __uint8_t blue;
 }RGB_t;
 
-
 // Google calendars use colour ids. This array stores an APPROXIMATE RGB value for each colour ID
 // Visit https://codepen.io/chiss22/pen/qBdEqdj to see the colours (NOT MY WEBSITE)
 
@@ -44,8 +43,32 @@ RGB_t rgb_google[] = {                     // Colour ID from google
     {.green = 15, .red = 250, .blue = 75},  //22
     {.green = 3, .red = 100, .blue = 150},  //23
     {.green = 100, .red = 140, .blue = 140},  //24
+    {.green = 0, .red = 0, .blue = 0}  // 25 (Not a google colour ID, but used to turn the LEDs off)
 };
 
+RGB_t rgb_event;
+
+//Function linked to the task
+void send_rgb(){
+    while(1){
+        for(int i = 0; i < MAX_EVENTS; i++)
+        {
+            if(i+1 < current_date){
+                // 100, 100 and 100 is to make a light colour to mark the days past
+                send_to_pixel(100,100,100,i+1+first_of_month);
+            }
+            else{
+                // NOTE: i represents the day of the month
+                rgb_event.red = rgb_google[events[i].color_id-1].red;
+                rgb_event.green = rgb_google[events[i].color_id-1].green;
+                rgb_event.blue = rgb_google[events[i].color_id-1].blue;
+                send_to_pixel(rgb_event.green, rgb_event.red, rgb_event.blue, i+1+first_of_month);
+            }
+        }
+        vTaskDelay(500 / portTICK_PERIOD_MS);
+    }
+
+}
 
 void app_main(void)
 {
@@ -64,6 +87,7 @@ void app_main(void)
     rgb_init();
     clear_strip();
 
+    //Starting sequence to test green, red and blue on each LED
     for(int i = 1; i <= STRIP_LENGTH; i++){
         send_to_pixel(255,0,0,i);
         vTaskDelay(30/portTICK_PERIOD_MS);
@@ -100,24 +124,22 @@ void app_main(void)
     vTaskDelay(2000 / portTICK_PERIOD_MS);
     esp_mqtt_client_subscribe(client, "/events", 0);
 
-    RGB_t rgb_event;
 
-    while(1)
-    {
-        event_t *events = read_events();
-        for(int i = 0; i < MAX_EVENTS; i++)
-        {
-            // NOTE: i represents the day of the month
-            if(events[i].color_id != 0){
-                printf("%d, %d\n", i+1, events[i].color_id);
-            }
-            rgb_event.red = rgb_google[events[i].color_id-1].red;
-            rgb_event.green = rgb_google[events[i].color_id-1].green;
-            rgb_event.blue = rgb_google[events[i].color_id-1].blue;
-            send_to_pixel(rgb_event.green, rgb_event.red, rgb_event.blue, i+1);
-        }
-        vTaskDelay(2000 / portTICK_PERIOD_MS);
-    }
+    //Create task to read events and send data to LEDS on Core 0 
+    //(on menuconfig change WiFi and MQTT to work on core 1)
+    xTaskCreatePinnedToCore(
+            send_rgb, // Function to be called
+            "Send data to LED", //Name of task
+            1024*32, // Stack size
+            NULL,
+            25, //Task priority (Higher number = higher prio) 1-25
+            NULL,
+            0); //Core to use
+
+    
+
+    vTaskStartScheduler();
+
     return;
 
 }

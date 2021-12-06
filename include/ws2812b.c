@@ -16,7 +16,7 @@ LED_status_t LEDS[STRIP_LENGTH];
 rmt_item32_t buffer[STRIP_LENGTH][24];
 
 //Note: with a freq. of 80Mhz, each tick is 0.0125us. 
-//The pattern I need to send a 1 is 0.4us High followed by 0.85 Low
+//The pattern we need to send a 1 is 0.4us High followed by 0.85 Low
 //To send a 0 is 0.85us High ans 0.45 Low
 
 //Convertion: Ticks to us
