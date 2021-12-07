@@ -5,7 +5,7 @@
 I started this project because I wanted a visual reminder of simple tasks, like taking out the bins 
 or cleaning the fridge. 
 
-![Google Calendar LEDs](https://github.com/Niuslar/mqtt_calendar/blob/master/working_calendar.jpg?raw=true)
+![Google Calendar LEDs](https://github.com/Niuslar/mqtt_calendar/blob/master/working_calendar.jpg?raw=true | width=200)
 
 The calendar consists of 35 RGB LEDs connected to an ESP32 which receives data via MQTT from a Raspberry Pi. The calendar receives data like date, calendar colour ID and other relevant information. This way, the events can be colour coded by creating different calendars with different colour IDs. 
 
