@@ -9,7 +9,7 @@ The calendar consists of 35 RGB LEDs connected to an ESP32 which receives data v
 <p align="center">
 <img src="working_calendar.jpg" width="300">
 </p>
-I chose this approach because I already had an MQTT broker running for [another project](https://github.com/Niuslar/MQTT) and it seemed like a good opportunity to use the ESP32 and my Raspberry Pi.
+I chose this approach because I already had an MQTT broker running for another [project](https://github.com/Niuslar/MQTT) and it seemed like a good opportunity to use the ESP32 and my Raspberry Pi.
 
 ## First: Connect Raspberry Pi to Google Calendars 
 
