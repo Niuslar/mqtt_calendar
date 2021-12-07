@@ -5,13 +5,15 @@
 I started this project because I wanted a visual reminder of simple tasks, like taking out the bins 
 or cleaning the fridge. 
 
+![Google Calendar LEDs](https://github.com/Niuslar/mqtt_calendar/blob/master/working_calendar.jpg?raw=true)
+
 The calendar consists of 35 RGB LEDs connected to an ESP32 which receives data via MQTT from a Raspberry Pi. The calendar receives data like date, calendar colour ID and other relevant information. This way, the events can be colour coded by creating different calendars with different colour IDs. 
 
 I chose this approach because I wanted to practice my Python skills (with the R.Pi) and because I already had an MQTT broker running for another project. 
 
 ## First: Connect Raspberry Pi to Google Calendars 
 
-The first step was to connect Google Calendars to the Raspberry Pi so it could read the data before publishing it via MQTT. The exact steps to do this can be found in [this link](https://developers.google.com/workspace/guides/getstarted-overview). As a base for the Python Script I used their ("quickstart")[https://developers.google.com/calendar/api/quickstart/python] script. It is a simple script that includes some of the APIs necessary to obtain the data. 
+The first step was to connect Google Calendars to the Raspberry Pi so it could read the data before publishing it via MQTT. The exact steps to do this can be found in [this link](https://developers.google.com/workspace/guides/getstarted-overview). As a base for the Python Script I used their ["quickstart"](https://developers.google.com/calendar/api/quickstart/python) script. It is a simple script that includes some of the APIs necessary to obtain the data. 
 
 ## Second: Publish the data via MQTT 
 
