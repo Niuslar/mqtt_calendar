@@ -7,7 +7,7 @@ or cleaning the fridge.
 
 The calendar consists of 35 RGB LEDs connected to an ESP32 which receives data via MQTT from a Raspberry Pi. The calendar receives data like date, calendar colour ID and other relevant information. This way, the events can be colour coded by creating different calendars with different colour IDs. 
 
-<img src="working_calendar.jpg" align="center" width="400">
+<img src="working_calendar.jpg" align="centre" width="300">
 
 I chose this approach because I wanted to practice my Python skills (with the R.Pi) and because I already had an MQTT broker running for another project. 
 
