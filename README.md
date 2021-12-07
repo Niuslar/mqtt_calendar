@@ -11,7 +11,7 @@ The calendar consists of 35 RGB LEDs connected to an ESP32 which receives data v
 <img src="working_calendar.jpg" width="300">
 </p>
 
-I chose this approach because I already had an MQTT broker running for another [project](https://github.com/Niuslar/MQTT) and it seemed like a good opportunity to use the ESP32 and my Raspberry Pi.
+I chose this approach because I already had an MQTT broker running for another [project](https://github.com/Niuslar/AHT10_MQTT) and it seemed like a good opportunity to use the ESP32 and my Raspberry Pi.
 
 ## First: Connect Raspberry Pi to Google Calendars 
 
@@ -24,7 +24,7 @@ As I mentioned, I already had an MQTT broker running on the Raspberry Pi. I reco
 ## Third: Reading the data with the ESP32 
 
 There are many ways to program an ESP32. In my case I used the official ESP-IDF, however, options like Platform.io or using the Arduino IDE can be much easier if you want to use other libraries. 
-In my project [ESP32-MQTT](https://github.com/Niuslar/MQTT) I learnt how to use WiFi and MQTT with the ESP32 so I won't explain that here.
+In my project [ESP32-MQTT](https://github.com/Niuslar/AHT10_MQTT) I learnt how to use WiFi and MQTT with the ESP32 so I won't explain that here.
 The files mqtt.c and mqtt.h in the "include" folder handle the different "events" (connected to broker, subscribed to topic, message received, etc.). The MQTT Client configuration is in the main file MQTT_CAL.c
 
 ## Fourth: Sending the data to the LEDs
